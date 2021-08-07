@@ -11,7 +11,7 @@ import PlacesAutocomplete, {
 function Landing() {
     
     const [xAddress, setXAddress] = React.useState("")
-    const [YAddress, setYAddress] = React.useState("")
+    const [yAddress, setYAddress] = React.useState("")
     
     // const handleSelect = async (value) => {
     //     setAddress(value);
@@ -67,7 +67,7 @@ function Landing() {
                             
                             <p1 style={{fontWeight: "600", color: "white", fontSize: "13px", marginLeft: "40px"}}>Destination</p1>
                             
-                            <PlacesAutocomplete value={YAddress} onChange={setYAddress} onSelect={async (value) => setYAddress(value)} searchOptions={searchOptions}>
+                            <PlacesAutocomplete value={yAddress} onChange={setYAddress} onSelect={async (value) => setYAddress(value)} searchOptions={searchOptions}>
                                 {({getInputProps, suggestions, getSuggestionItemProps}) => (
                                     <div>
                                         <input {...getInputProps({placeholder: "Where are going?"})} style={{border: "none", background: "none", color: "#ececec", fontSize: "13px", fontFamily: "lato, sans-serif", outline: "none", marginLeft: "38px", width: "230px"}}/>

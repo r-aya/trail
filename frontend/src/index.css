@@ -37,3 +37,9 @@ button {
 	cursor: pointer;
 	outline: inherit;
 }
+
+.map-container {
+  height: 100vh;
+  width: 50vw;
+  z-index: 1
+  }
