@@ -56,15 +56,13 @@ function Directions() {
                 profile: "mapbox/cycling",
             })
 
-            map.addControl(directions, "top-right")
+            map.addControl(directions, "top-left")
             console.log(directions)
         });
     
 
     return (
         <div style={{width: "100vw", height: "100vh"}}>
-        <div ref={mapContainer} className="map-container"/>
-        <h1>hi</h1>
         
         <div style={{
             width: "350px", 
@@ -78,6 +76,7 @@ function Directions() {
             flexDirection: "column",
             alignSelf: "center",
             cursor: "default",
+            position: "fixed",
             zIndex: "10"
         }}>
         
@@ -115,7 +114,7 @@ function Directions() {
             <PlacesAutocomplete value={yAddress} onChange={setYAddress} onSelect={async (value) => setYAddress(value)} searchOptions={searchOptions}>
                 {({getInputProps, suggestions, getSuggestionItemProps}) => (
                     <div>
-                        <input {...getInputProps({placeholder: "Where are you?"})} style={{border: "none", background: "none", color: "#ececec", fontSize: "13px", fontFamily: "lato, sans-serif", outline: "none", width: "230px", marginRight: "50px"}}/>
+                        <input {...getInputProps({placeholder: "Where are you going?"})} style={{border: "none", background: "none", color: "#ececec", fontSize: "13px", fontFamily: "lato, sans-serif", outline: "none", width: "230px", marginRight: "50px"}}/>
                     
                         <div style={{position: "absolute", marginTop: "20px", borderRadius: "10px", width: "430px", transform: "translateX(-50px)", boxShadow: "0px 3px 10px rgba(158, 158, 158, 0.2)", overflow: "hidden"}}>
                             {suggestions.map(suggestion => {
@@ -141,6 +140,7 @@ function Directions() {
             
         </div>
         {/* </ReactMapGL> */}
+        <div ref={mapContainer} className="map-container"/>
         
     </div>
 );
