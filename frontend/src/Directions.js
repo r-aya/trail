@@ -10,6 +10,11 @@ import mapboxgl from "mapbox-gl"
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions"
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
 import env from "react-dotenv"
+import 'mapbox-gl/dist/mapbox-gl.css';
+import 'mapbox-gl/dist/svg/mapboxgl-ctrl-compass.svg';
+import 'mapbox-gl/dist/svg/mapboxgl-ctrl-geolocate.svg';
+import 'mapbox-gl/dist/svg/mapboxgl-ctrl-zoom-in.svg';
+import 'mapbox-gl/dist/svg/mapboxgl-ctrl-zoom-out.svg';
 
 mapboxgl.accessToken = env.MAPBOX_TOKEN
 
@@ -30,6 +35,7 @@ function Directions() {
     //     directions: [directions, "top-left"]  
     // })
     const mapContainer = useRef(null)
+    const map = useRef(null)
     const [lng, setLng] = useState(-79.4512);
     const [lat, setLat] = useState(43.6568);
     const [zoom, setZoom] = useState(13.5);
@@ -39,32 +45,46 @@ function Directions() {
         types: ['address']
     }
 
+    const setupMap = () => {
+
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: 'mapbox://styles/rayaferdous/cks1a3mwc1ehm18l3013td1ab',
+            center: [lng, lat],
+            zoom: zoom
+            });
+        
+        const directions = new MapboxDirections({
+            accessToken: mapboxgl.accessToken,
+            unit: "metric",
+            profile: "mapbox/cycling",
+        })
+
+        map.current.addControl(directions, "top-left")
+        // map.current.addControl(new mapboxgl.NavigationControl(), 'top-right')
+        console.log(directions)
+
+    }
     
     
     useEffect(() => {
-        
-            const map = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: 'mapbox://styles/rayaferdous/cks1a3mwc1ehm18l3013td1ab',
-                center: [lng, lat],
-                zoom: zoom
-                });
-            
-            const directions = new MapboxDirections({
-                accessToken: mapboxgl.accessToken,
-                unit: "metric",
-                profile: "mapbox/cycling",
-            })
 
-            map.addControl(directions, "top-left")
-            console.log(directions)
-        });
+        if(!map.current){
+            setupMap()
+        }
+        
+          
+
+    });
     
 
     return (
-        <div style={{width: "100vw", height: "100vh"}}>
+        <div>
+
+            <div ref={mapContainer} className="map-container"/>
+
         
-        <div style={{
+        {/* <div style={{
             width: "350px", 
             height: "76vh", 
             backgroundColor: "rgba(48, 65, 54, 0.95)", 
@@ -78,12 +98,12 @@ function Directions() {
             cursor: "default",
             position: "fixed",
             zIndex: "10"
-        }}>
+        }}> */}
         
 
-        <div style={{display: "flex", width: "90%", height: "25px", borderRadius: "45px", backgroundColor: "#415447", padding: "10px 20px", alignItems:"center", marginBottom: "20px", zIndex: "10"}}>
-            <MdMyLocation style={{color: "white", marginRight: "20px", height: "18px", overflow: "visible"}}></MdMyLocation>
-            <PlacesAutocomplete value={xAddress} onChange={setXAddress} onSelect={async (value) => setXAddress(value)} searchOptions={searchOptions}>
+        {/* <div style={{display: "flex", width: "90%", height: "25px", borderRadius: "45px", backgroundColor: "#415447", padding: "10px 20px", alignItems:"center", marginBottom: "20px", zIndex: "10"}}> */}
+            {/* <MdMyLocation style={{color: "white", marginRight: "20px", height: "18px", overflow: "visible"}}></MdMyLocation> */}
+            {/* <PlacesAutocomplete value={xAddress} onChange={setXAddress} onSelect={async (value) => setXAddress(value)} searchOptions={searchOptions}>
             {({getInputProps, suggestions, getSuggestionItemProps}) => (
                 <div>
                     <input {...getInputProps({placeholder: "Where are you?"})} style={{border: "none", background: "none", color: "#ececec", fontSize: "13px", fontFamily: "lato, sans-serif", outline: "none", width: "230px", marginRight: "50px"}}/>
@@ -135,12 +155,11 @@ function Directions() {
                     </div>
 
                 )}
-            </PlacesAutocomplete>
-        </div>
+            </PlacesAutocomplete> */}
+        {/* </div> */}
             
-        </div>
+        {/* </div> */}
         {/* </ReactMapGL> */}
-        <div ref={mapContainer} className="map-container"/>
         
     </div>
 );
