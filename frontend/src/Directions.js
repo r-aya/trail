@@ -39,25 +39,49 @@ function Directions() {
         types: ['address']
     }
 
-    
+    const setupMap = (center) => {
+                
+        const map = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: 'mapbox://styles/rayaferdous/cks1a3mwc1ehm18l3013td1ab',
+            center: center,
+            zoom: zoom
+        });
+
+        const directions = new MapboxDirections({
+            accessToken: mapboxgl.accessToken,
+            unit: "metric",
+            profile: "mapbox/cycling",
+            waypoints: [
+                {
+                    coordinates: [-79.27, 43.78],
+                    approach: 'unrestricted'
+                },
+                {
+                    coordinates: [-79.23, 43.71],
+                    approach: 'unrestricted'
+                }],
+            steps: true
+        })
+
+        
+
+        map.addControl(directions, "top-left")
+        console.log(directions)
+    }
     
     useEffect(() => {
-        
-            const map = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: 'mapbox://styles/rayaferdous/cks1a3mwc1ehm18l3013td1ab',
-                center: [lng, lat],
-                zoom: zoom
-                });
-            
-            const directions = new MapboxDirections({
-                accessToken: mapboxgl.accessToken,
-                unit: "metric",
-                profile: "mapbox/cycling",
+            navigator.geolocation.getCurrentPosition(success, error, {
+                enableHighAccuracy: true
             })
-
-            map.addControl(directions, "top-left")
-            console.log(directions)
+            
+            function success(pos){
+                setupMap([pos.coords.longitude, pos.coords.latitude])
+            }
+            function error(){
+                setupMap([-79.398, 43.648])
+            }
+         
         });
     
 
